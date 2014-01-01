@@ -43,3 +43,16 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.search-input {
+	max-width: 300px;
+}
+.search-remove {
+	position: absolute;
+	right: 13px;
+	top: 3px;
+	background-color: #fff;
+	padding: 5px;
+	display: none;
+	cursor: pointer;
+}

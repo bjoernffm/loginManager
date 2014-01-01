@@ -12,6 +12,17 @@ LoginManager = function() {
 			e.preventDefault();
 			self.showLogin();
 		});
+		$('.search-input').on('keyup keydown change', function() {
+			value = $(this).val(); 	
+			if (value.trim().length > 0) {
+				$('.search-remove').show();
+			} else {
+				$('.search-remove').hide();
+			}
+		});
+		$('.search-remove').click(function() {
+			$('.search-input').val('').change();	
+		});
 	};
 	
 	self.loadOverviewTable = function() {

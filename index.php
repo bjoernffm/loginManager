@@ -39,9 +39,11 @@
 					</div>
 				</nav>
 				<div class="row">
-					<div class="col-xs-9"></div>
-					<div class="col-xs-3">
-						<input type="text" class="form-control input-sm" placeholder="Type here to search ..."/>
+					<div class="col-xs-12">
+						<div style="position: relative;">
+							<span class="glyphicon glyphicon-remove search-remove"></span>
+							<input type="text" class="form-control input-sm pull-right search-input" placeholder="Type here to search ..."/>
+						</div>
 					</div>
 				</div>
 				<h3>Own login data</h3>
