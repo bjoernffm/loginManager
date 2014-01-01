@@ -3,6 +3,12 @@ LoginManager = function() {
 	self = this;
 	
 	self.init = function() {
+		$.zeroclipboard({
+			moviePath: 'js/ZeroClipboard.swf',
+            activeClass: 'active',
+            hoverClass: 'hover'
+		});
+        
 		$('.btn-login').click(function(e) {
 			e.preventDefault();
 			self.loadOverviewTable();
@@ -25,10 +31,11 @@ LoginManager = function() {
 		$('.search-remove').click(function() {
 			$('.search-input').val('').change();	
 		});
+		$('.btn-login').click();
 	};
 	
 	self.loadOverviewTable = function(searchTerm) {
-		$.getJSON( "ajax/getLoginList.ajax.php", {search: searchTerm}, function( data ) {
+		$.getJSON('ajax/getLoginList.ajax.php', {search: searchTerm}, function( data ) {
 			var ownedLogins = [];
 			var sharedLogins = [];
 
@@ -43,7 +50,7 @@ LoginManager = function() {
 				
 				row = '<tr>' +
 						'<td>' + val.user + '</td>' +
-						'<td><button class="btn btn-xs btn-default">'+
+						'<td><button class="btn btn-xs btn-default btn-copy-password" data-id="' + val.id + '">'+
 						'<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;copy to clipboard</button></td>'+
 						'<td>' + val.location + '</td>'+
 						'<td>' + val.tags + '</td>'+
@@ -58,6 +65,7 @@ LoginManager = function() {
 				} else {
 					sharedLogins.push(row);
 				}
+
 			});
 			
 			if (ownedLogins.length > 0) {
@@ -75,6 +83,23 @@ LoginManager = function() {
 				$('.alert-shared-logins').text('You currently have no shared login data.').show();
 				$('.table-shared-logins').hide();
 			}
+
+			$('.btn-copy-password').zeroclipboard({
+				dataRequested: function (event, setText) {
+					button = $(this);
+					$.getJSON('ajax/getPassword.ajax.php', {id: button.attr('data-id')}, function( data ) {
+						if(data !== false) {
+							setText(data);
+						}
+					});
+				},
+				complete: function() {
+					button.html('<span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;copied!');
+					window.setTimeout(function() {
+						button.html('<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;copy to clipboard');
+					}, 1500);
+				}
+			});
 		});
 	};
 	

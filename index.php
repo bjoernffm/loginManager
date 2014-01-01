@@ -79,6 +79,8 @@
 		</div>
 		<script src="https://code.jquery.com/jquery.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/ZeroClipboard.min.js"></script>
+		<script src="js/jquery-zeroclipboard.js"></script>
 		<script src="js/LoginManager.js"></script>
 		<script>
 			loginManager = new LoginManager();

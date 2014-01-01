@@ -14,6 +14,28 @@
 			$this->userId = $userId;
 		}
 		
+		public function getPasswordById($id) {
+			$mysqli = self::getMysqlConnection();
+			
+			$id = $mysqli->real_escape_string($id);
+			
+			$result = $mysqli->query('SELECT
+											`login_password`
+										FROM
+											`logins`
+										WHERE
+											`login_id` = '.$id);
+											
+			$password = false;
+			
+			if ($row = $result->fetch_assoc()) {
+				$password = $row['login_password'];
+			}
+			
+			return $password;
+			
+		}
+		
 		public function getLoginList() {
 			$mysqli = self::getMysqlConnection();
 			
