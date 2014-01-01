@@ -8,6 +8,13 @@ LoginManager = function() {
             activeClass: 'active',
             hoverClass: 'hover'
 		});
+		
+		
+		$('#modalEdit').modal({
+			backdrop: true,
+			keyboard: true,
+			show: false
+		});
         
 		$('.btn-login').click(function(e) {
 			e.preventDefault();
@@ -56,8 +63,8 @@ LoginManager = function() {
 						'<td>' + val.tags + '</td>'+
 						'<td><button class="btn btn-xs btn-danger pull-right">'+
 						'<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;remove</button>'+
-						'<button class="btn btn-xs btn-success pull-right" style="margin-right: 5px;">'+
-						'<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;edit</button></td>'+
+						'<button class="btn btn-xs btn-success btn-edit pull-right" style="margin-right: 5px;">'+
+						'<span class="glyphicon glyphicon-edit" data-id="' + val.id + '"></span>&nbsp;&nbsp;edit</button></td>'+
 					'</tr>';
 				
 				if (val.type == 'OWNER') {
@@ -83,6 +90,14 @@ LoginManager = function() {
 				$('.alert-shared-logins').text('You currently have no shared login data.').show();
 				$('.table-shared-logins').hide();
 			}
+			
+			/**
+			 * The event listeners are defined here:
+			 */
+			
+			$('.btn-edit').click(function() {
+				$('#modalEdit').modal('show');
+			})
 
 			$('.btn-copy-password').zeroclipboard({
 				dataRequested: function (event, setText) {

@@ -75,6 +75,59 @@
 					</thead>
 					<tbody></tbody>
 				</table>
+				
+				<!-- modals are defined here -->
+				
+				<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">Edit a login record:</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label for="editUserInput" class="col-sm-3 control-label">User</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="editUserInput" placeholder="User">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="editPasswordInput" class="col-sm-3 control-label">Password</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="editPasswordInput" placeholder="Password">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="editLocationInput" class="col-sm-3 control-label">Location/Host</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="editLocationInput" placeholder="Location/Host">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="editDescriptionInput" class="col-sm-3 control-label">Description</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" rows="4" id="editDescriptionInput" placeholder="Description"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="editTagsInput" class="col-sm-3 control-label">Tags</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="editTagsInput" placeholder="Tags">
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-success">
+									<span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Save changes
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="https://code.jquery.com/jquery.js"></script>
