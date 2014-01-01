@@ -15,8 +15,10 @@ LoginManager = function() {
 		$('.search-input').on('keyup keydown change', function() {
 			value = $(this).val(); 	
 			if (value.trim().length > 0) {
+				self.loadOverviewTable(value);
 				$('.search-remove').show();
 			} else {
+				self.loadOverviewTable();
 				$('.search-remove').hide();
 			}
 		});
@@ -25,8 +27,8 @@ LoginManager = function() {
 		});
 	};
 	
-	self.loadOverviewTable = function() {
-		$.getJSON( "ajax/getLoginList.ajax.php", function( data ) {
+	self.loadOverviewTable = function(searchTerm) {
+		$.getJSON( "ajax/getLoginList.ajax.php", {search: searchTerm}, function( data ) {
 			var ownedLogins = [];
 			var sharedLogins = [];
 
@@ -41,9 +43,14 @@ LoginManager = function() {
 				
 				row = '<tr>' +
 						'<td>' + val.user + '</td>' +
-						'<td><button class="btn btn-xs btn-default">hidden</button></td>'+
+						'<td><button class="btn btn-xs btn-default">'+
+						'<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;copy to clipboard</button></td>'+
 						'<td>' + val.location + '</td>'+
 						'<td>' + val.tags + '</td>'+
+						'<td><button class="btn btn-xs btn-danger pull-right">'+
+						'<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;remove</button>'+
+						'<button class="btn btn-xs btn-success pull-right" style="margin-right: 5px;">'+
+						'<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;edit</button></td>'+
 					'</tr>';
 				
 				if (val.type == 'OWNER') {

@@ -55,6 +55,7 @@
 							<th>Password</th>
 							<th>Location/Host</th>
 							<th>Tags</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -69,6 +70,7 @@
 							<th>Password</th>
 							<th>Location/Host</th>
 							<th>Tags</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody></tbody>
