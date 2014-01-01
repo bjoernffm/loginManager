@@ -45,10 +45,8 @@
 					</div>
 				</div>
 				<h3>Own login data</h3>
-				<p class="alert alert-warning">No data found for <i>samplesearch</i>.</p>
-				<hr />
-				<h3>Shared login data</h3>
-				<table class="table">
+				<p class="alert alert-warning alert-owned-logins"></p>
+				<table class="table table-owned-logins">
 					<thead>
 						<tr>
 							<th>Username</th>
@@ -57,16 +55,21 @@
 							<th>Tags</th>
 						</tr>
 					</thead>
-					<tr>
-						<td>web</td>
-						<td><button class="btn btn-xs btn-default">hidden</button></td>
-						<td>sandbox61.de</td>
-						<td>
-							<span class="label label-primary">Tag 1</span>
-							<span class="label label-primary">Tag 2</span>
-							<span class="label label-primary">Tag 3</span>
-						</td>
-					</tr>
+					<tbody></tbody>
+				</table>
+				<hr /><td></td>
+				<h3>Shared login data</h3>
+				<p class="alert alert-warning alert-shared-logins"></p>
+				<table class="table table-shared-logins">
+					<thead>
+						<tr>
+							<th>Username</th>
+							<th>Password</th>
+							<th>Location/Host</th>
+							<th>Tags</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
 				</table>
 			</div>
 		</div>

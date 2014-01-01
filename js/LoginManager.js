@@ -5,6 +5,7 @@ LoginManager = function() {
 	self.init = function() {
 		$('.btn-login').click(function(e) {
 			e.preventDefault();
+			self.loadOverviewTable();
 			self.showOverview();
 		});
 		$('.btn-logout').click(function(e) {
@@ -14,17 +15,48 @@ LoginManager = function() {
 	};
 	
 	self.loadOverviewTable = function() {
-		$.getJSON( "ajax/test.json", function( data ) {
-			var items = [];
-			
+		$.getJSON( "ajax/getLoginList.ajax.php", function( data ) {
+			var ownedLogins = [];
+			var sharedLogins = [];
+
 			$.each( data, function( key, val ) {
-				items.push( "<li id='" + key + "'>" + val + "</li>" );
+				if (val.tags.length > 0) {
+					val.tags = '<span class="label label-primary">'+
+								val.tags.join('</span>&nbsp;<span class="label label-primary">')+
+								'</span>';	
+				} else {
+					val.tags = '';
+				}
+				
+				row = '<tr>' +
+						'<td>' + val.user + '</td>' +
+						'<td><button class="btn btn-xs btn-default">hidden</button></td>'+
+						'<td>' + val.location + '</td>'+
+						'<td>' + val.tags + '</td>'+
+					'</tr>';
+				
+				if (val.type == 'OWNER') {
+					ownedLogins.push(row);
+				} else {
+					sharedLogins.push(row);
+				}
 			});
 			
-			$( "<ul/>", {
-				"class": "my-new-list",
-				html: items.join( "" )
-			}).appendTo( "body" );
+			if (ownedLogins.length > 0) {
+				$('.alert-owned-logins').hide();
+				$('.table-owned-logins').show().find('tbody').html(ownedLogins.join(''));
+			} else {
+				$('.alert-owned-logins').text('You currently have no login data.').show();
+				$('.table-owned-logins').hide();
+			}
+			
+			if (sharedLogins.length > 0) {
+				$('.alert-shared-logins').hide();
+				$('.table-shared-logins').show().find('tbody').html(sharedLogins.join(''));
+			} else {
+				$('.alert-shared-logins').text('You currently have no shared login data.').show();
+				$('.table-shared-logins').hide();
+			}
 		});
 	};
 	
