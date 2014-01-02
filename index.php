@@ -7,8 +7,9 @@
 		<title>LoginManager +++ Sign in</title>
 
 		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/style.css" rel="stylesheet">
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/bootstrap-tagsinput.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
 	</head>
 	<body>
 		<div class="container">
@@ -39,13 +40,19 @@
 					</div>
 				</nav>
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-xs-6">
+						<button class="btn btn-primary btn-sm">
+							<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;add new record
+						</button>
+					</div>
+					<div class="col-xs-6">
 						<div style="position: relative;">
 							<span class="glyphicon glyphicon-remove search-remove"></span>
 							<input type="text" class="form-control input-sm pull-right search-input" placeholder="Type here to search ..."/>
 						</div>
 					</div>
 				</div>
+				<hr />
 				<h3>Own login data</h3>
 				<p class="alert alert-warning alert-owned-logins"></p>
 				<table class="table table-owned-logins">
@@ -90,31 +97,31 @@
 									<div class="form-group">
 										<label for="editUserInput" class="col-sm-3 control-label">User</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="editUserInput" placeholder="User">
+											<input type="text" class="form-control" id="editUserInput" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="editPasswordInput" class="col-sm-3 control-label">Password</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="editPasswordInput" placeholder="Password">
+											<input type="text" class="form-control" id="editPasswordInput" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="editLocationInput" class="col-sm-3 control-label">Location/Host</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="editLocationInput" placeholder="Location/Host">
+											<input type="text" class="form-control" id="editLocationInput" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="editDescriptionInput" class="col-sm-3 control-label">Description</label>
 										<div class="col-sm-9">
-											<textarea class="form-control" rows="4" id="editDescriptionInput" placeholder="Description"></textarea>
+											<textarea class="form-control" rows="4" id="editDescriptionInput"></textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="editTagsInput" class="col-sm-3 control-label">Tags</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="editTagsInput" placeholder="Tags">
+											<input type="text" class="form-control" id="editTagsInput" />
 										</div>
 									</div>
 								</form>
@@ -134,6 +141,7 @@
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/ZeroClipboard.min.js"></script>
 		<script src="js/jquery-zeroclipboard.js"></script>
+		<script src="js/bootstrap-tagsinput.min.js"></script>
 		<script src="js/LoginManager.js"></script>
 		<script>
 			loginManager = new LoginManager();

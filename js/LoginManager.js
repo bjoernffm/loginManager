@@ -9,6 +9,11 @@ LoginManager = function() {
             hoverClass: 'hover'
 		});
 		
+		$('#editTagsInput').tagsinput({
+			tagClass: function(item) {
+				return'label label-primary';
+			}
+		});
 		
 		$('#modalEdit').modal({
 			backdrop: true,
@@ -104,6 +109,7 @@ LoginManager = function() {
 					button = $(this);
 					$.getJSON('ajax/getPassword.ajax.php', {id: button.attr('data-id')}, function( data ) {
 						if(data !== false) {
+							//console.log(data);
 							setText(data);
 						}
 					});
@@ -112,7 +118,7 @@ LoginManager = function() {
 					button.html('<span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;copied!');
 					window.setTimeout(function() {
 						button.html('<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;copy to clipboard');
-					}, 1500);
+					}, 500);
 				}
 			});
 		});
