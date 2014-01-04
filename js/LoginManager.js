@@ -43,7 +43,6 @@ LoginManager = function() {
 		$('.search-remove').click(function() {
 			$('.search-input').val('').change();	
 		});
-		$('.btn-login').click();
 	};
 	
 	self.loadOverviewTable = function(searchTerm) {
@@ -72,7 +71,7 @@ LoginManager = function() {
 						'<span class="glyphicon glyphicon-edit" data-id="' + val.id + '"></span>&nbsp;&nbsp;edit</button></td>'+
 					'</tr>';
 				
-				if (val.type == 'OWNER') {
+				if (val.type == 'OWNED') {
 					ownedLogins.push(row);
 				} else {
 					sharedLogins.push(row);

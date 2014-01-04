@@ -2,9 +2,12 @@
 
 	namespace LoginManager;
 	use \stdClass;
+	use \Exception;
+	use \Encryption;
 	
 	require_once 'Base.class.php';
 	require_once 'Login.class.php';
+	require_once 'Encryption.class.php';
 
 	class Manager extends Base {
 		
@@ -127,6 +130,56 @@
 			}
 			
 			return $logins;
+		}
+
+		public function addLogin($array) {
+			$user = $array['user'];
+			$password = Encryption::encrypt($array['password']);
+			$location = $array['location'];
+			$description = $array['description'];
+			$tags = $array['tags'];
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$user = $mysqli->real_escape_string($user);
+			$password = $mysqli->real_escape_string($password);
+			$location = $mysqli->real_escape_string($location);
+			$description = $mysqli->real_escape_string($description);
+			$tags = $mysqli->real_escape_string($tags);
+			
+			$result = $mysqli->query('INSERT INTO
+										`logins`
+										(
+											`login_user`,
+											`login_password`,
+											`login_location`,
+											`login_description`,
+											`login_tags`
+										) VALUES (
+											"' . $user . '",
+											"' . $password . '",
+											"' . $location . '",
+											"' . $description . '",
+											"' . $tags . '"
+										)');
+			if ($result === false)
+				throw new Exception($mysqli->error);
+								
+			$id = $mysqli->insert_id;
+			
+			$result = $mysqli->query('INSERT INTO
+										`user_logins`
+										(
+											`user_id`,
+											`login_id`,
+											`type`
+										) VALUES (
+											' . $this->userId . ',
+											' . $id . ',
+											"OWNED"
+										)');
+			if ($result === false)
+				throw new Exception($mysqli->error);
 		}	
 	}
 
