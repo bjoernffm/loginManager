@@ -6,7 +6,7 @@
 
 		<title>LoginManager +++ Sign in</title>
 
-		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+		<!--<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>-->
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
 		<link href="css/bootstrap-tagsinput.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
@@ -41,7 +41,7 @@
 				</nav>
 				<div class="row">
 					<div class="col-xs-6">
-						<button class="btn btn-primary btn-sm">
+						<button class="btn btn-primary btn-sm btn-add">
 							<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;add new record
 						</button>
 					</div>
@@ -85,12 +85,12 @@
 				
 				<!-- modals are defined here -->
 				
-				<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								<h4 class="modal-title" id="myModalLabel">Edit a login record:</h4>
+								<h4 class="modal-title" id="modalEditLabel">Edit a login record:</h4>
 							</div>
 							<div class="modal-body">
 								<form class="form-horizontal" role="form">
@@ -135,10 +135,72 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAddLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalAddLabel">Add a new login record:</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label for="addUserInput" class="col-sm-3 control-label">
+											User <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="addUserInput" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="addPasswordInput" class="col-sm-3 control-label">
+											Password <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="addPasswordInput" />
+											<p class="help-block">Warning: Password is displayed on screen.</p>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="addLocationInput" class="col-sm-3 control-label">Location/Host</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="addLocationInput" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="addDescriptionInput" class="col-sm-3 control-label">Description</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" rows="4" id="addDescriptionInput"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="addTagsInput" class="col-sm-3 control-label">Tags</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="addTagsInput" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="addTagsInput" class="col-sm-3 control-label"></label>
+										<div class="col-sm-9">
+											<span class="text-danger">* required</span>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary btn-add-submit">
+									<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add login
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
-		<script src="https://code.jquery.com/jquery.js"></script>
+		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/ZeroClipboard.min.js"></script>
 		<script src="js/jquery-zeroclipboard.js"></script>

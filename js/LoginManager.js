@@ -12,13 +12,35 @@ LoginManager = function() {
 		$('#editTagsInput').tagsinput({
 			tagClass: function(item) {
 				return'label label-primary';
-			}
+			},
+			confirmKeys: [13, 188]
+		});
+		
+		$('#addTagsInput').tagsinput({
+			tagClass: function(item) {
+				return'label label-primary';
+			},
+			confirmKeys: [13, 188]
 		});
 		
 		$('#modalEdit').modal({
 			backdrop: true,
 			keyboard: true,
 			show: false
+		});
+		
+		$('#modalAdd').modal({
+			backdrop: true,
+			keyboard: true,
+			show: false
+		});
+		
+		$('.btn-add').click(function() {
+			$('#modalAdd').modal('show');
+		});
+		
+		$('.btn-add-submit').click(function() {
+			self.submitAddForm();
 		});
         
 		$('.btn-login').click(function(e) {
@@ -122,6 +144,35 @@ LoginManager = function() {
 			});
 		});
 	};
+	
+	self.submitAddForm = function() {
+		isError = false;
+		
+		if ($('#addUserInput').val() == '') {
+			$('#addUserInput').parent().parent().addClass('has-error');
+			isError = true;
+		}
+		if ($('#addPasswordInput').val() == '') {
+			$('#addPasswordInput').parent().parent().addClass('has-error');
+			isError = true;
+		}
+		if (isError === false) {
+			$.getJSON(
+				'ajax/addLogin.ajax.php',
+				{
+					user: $('#addUserInput').val(),
+					password: $('#addPasswordInput').val(),
+					location: $('#addLocationInput').val(),
+					description: $('#addDescriptionInput').val(),
+					tags: $('#addTagsInput').val()
+				},
+				function( data ) {
+					console.log(data);
+					$('#modalAdd').modal('hide');
+				}
+			)
+		}
+	}
 	
 	self.showLogin = function() {
 		$('.pageOverview').fadeOut(function() {

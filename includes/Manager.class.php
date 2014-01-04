@@ -32,7 +32,7 @@
 			$password = false;
 			
 			if ($row = $result->fetch_assoc()) {
-				$password = $row['login_password'];
+				$password = trim(Encryption::decrypt($row['login_password']));
 			}
 			
 			return $password;
@@ -163,7 +163,7 @@
 											"' . $tags . '"
 										)');
 			if ($result === false)
-				throw new Exception($mysqli->error);
+				throw new Exception($mysqli->error, 500);
 								
 			$id = $mysqli->insert_id;
 			
@@ -179,7 +179,7 @@
 											"OWNED"
 										)');
 			if ($result === false)
-				throw new Exception($mysqli->error);
+				throw new Exception($mysqli->error, 500);
 		}	
 	}
 
