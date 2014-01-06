@@ -6,7 +6,7 @@
 
 		<title>LoginManager +++ Sign in</title>
 
-		<!--<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>-->
+		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' />
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
 		<link href="css/bootstrap-tagsinput.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />

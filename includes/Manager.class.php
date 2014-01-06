@@ -39,6 +39,39 @@
 			
 		}
 		
+		public function getLogin($id) {
+			$mysqli = self::getMysqlConnection();
+			
+			$id = $mysqli->real_escape_string($id);
+			
+			$result = $mysqli->query('SELECT
+											*
+										FROM
+											`logins`
+										WHERE
+											`login_id` = ' .$id);
+											
+			if ($result->num_rows != 1)
+				throw new Exception('Record not found.', 404);
+									
+			$row = $result->fetch_assoc();
+					
+			$login = new stdClass();
+			$login->id = $row['login_id'];
+			$login->user = $row['login_user'];
+			$login->password = trim(Encryption::decrypt($row['login_password']));
+			$login->location = $row['login_location'];
+			$login->description = $row['login_description'];
+				
+			if (empty($row['login_tags'])) {
+				$login->tags = array();
+			} else {
+				$login->tags = explode(',', $row['login_tags']);
+			}
+		
+			return $login;	
+		}
+		
 		public function getLoginList() {
 			$mysqli = self::getMysqlConnection();
 			

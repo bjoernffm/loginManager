@@ -36,11 +36,11 @@ LoginManager = function() {
 		});
 		
 		$('.btn-add').click(function() {
-			$('#modalAdd').modal('show');
+			self.addFormShow();
 		});
 		
 		$('.btn-add-submit').click(function() {
-			self.submitAddForm();
+			self.addFormSubmit();
 		});
         
 		$('.btn-login').click(function(e) {
@@ -89,8 +89,8 @@ LoginManager = function() {
 						'<td>' + val.tags + '</td>'+
 						'<td><button class="btn btn-xs btn-danger pull-right">'+
 						'<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;remove</button>'+
-						'<button class="btn btn-xs btn-success btn-edit pull-right" style="margin-right: 5px;">'+
-						'<span class="glyphicon glyphicon-edit" data-id="' + val.id + '"></span>&nbsp;&nbsp;edit</button></td>'+
+						'<button class="btn btn-xs btn-success btn-edit pull-right" data-id="' + val.id + '" style="margin-right: 5px;">'+
+						'<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;edit</button></td>'+
 					'</tr>';
 				
 				if (val.type == 'OWNED') {
@@ -122,7 +122,7 @@ LoginManager = function() {
 			 */
 			
 			$('.btn-edit').click(function() {
-				$('#modalEdit').modal('show');
+				self.editFormShow($(this).attr('data-id'));
 			})
 
 			$('.btn-copy-password').zeroclipboard({
@@ -145,7 +145,38 @@ LoginManager = function() {
 		});
 	};
 	
-	self.submitAddForm = function() {
+	self.editFormShow = function (id) {
+		console.log(id);
+		$.getJSON('ajax/getLogin.ajax.php', {'id': id}, function( data ) {
+			if (data.status == 200) {
+				$('#editUserInput').val(data.login.user);
+				$('#editPasswordInput').val(data.login.password);
+				$('#editLocationInput').val(data.login.location);
+				$('#editDescriptionInput').val(data.login.description);
+				$('#editTagsInput').tagsinput('removeAll');
+				
+				for (i = 0; i < data.login.tags.length; i++) {
+					$('#editTagsInput').tagsinput('add', data.login.tags[i]);
+				}
+				
+				$('#modalEdit').modal('show');
+			}
+		});
+		
+	};
+	
+	self.addFormShow = function () {
+	
+		$('#addUserInput').val('');
+		$('#addPasswordInput').val('');
+		$('#addLocationInput').val('');
+		$('#addDescriptionInput').val('');
+		$('#addTagsInput').tagsinput('removeAll');
+		$('#modalAdd').modal('show');
+		
+	};
+	
+	self.addFormSubmit = function() {
 		isError = false;
 		
 		if ($('#addUserInput').val() == '') {
