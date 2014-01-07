@@ -183,9 +183,4 @@
 		
 	}
 	
-	$session = new Session();
-	$session->start();
-	
-	print_r($session);
-	
 ?>
