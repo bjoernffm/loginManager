@@ -112,8 +112,6 @@ LoginManager = function() {
 					val.tags = '';
 				}
 				
-				console.log(val.location);
-				console.log(self.isUrl(val.location));
 				if (self.isUrl(val.location)) {
 					val.location = '<a href="' + val.location + '" target="_blank">' + val.location.truncate(35) + '</a>';
 				} else {
@@ -132,11 +130,7 @@ LoginManager = function() {
 						'<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;edit</button></td>'+
 					'</tr>';
 				
-				if (val.type == 'OWNED') {
-					ownedLogins.push(row);
-				} else {
-					sharedLogins.push(row);
-				}
+				ownedLogins.push(row);
 
 			});
 			
@@ -146,14 +140,6 @@ LoginManager = function() {
 			} else {
 				$('.alert-owned-logins').text('You currently have no login data.').show();
 				$('.table-owned-logins').hide();
-			}
-			
-			if (sharedLogins.length > 0) {
-				$('.alert-shared-logins').hide();
-				$('.table-shared-logins').show().find('tbody').html(sharedLogins.join(''));
-			} else {
-				$('.alert-shared-logins').text('You currently have no shared login data.').show();
-				$('.table-shared-logins').hide();
 			}
 			
 			/**

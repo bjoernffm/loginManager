@@ -67,21 +67,6 @@
 					</thead>
 					<tbody></tbody>
 				</table>
-				<hr /><td></td>
-				<h3>Shared login data</h3>
-				<p class="alert alert-warning alert-shared-logins"></p>
-				<table class="table table-shared-logins">
-					<thead>
-						<tr>
-							<th>Username</th>
-							<th>Password</th>
-							<th>Location/Host</th>
-							<th>Tags</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
 				
 				<!-- modals are defined here -->
 				
