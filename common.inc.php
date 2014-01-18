@@ -11,7 +11,5 @@
 	
 	if ($session->getVar('loggedIn') != true and NO_STOP != true)
 		exit();
-	
-	//$session->setVar('userId', 1);
 
 ?>
