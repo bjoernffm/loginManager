@@ -166,6 +166,13 @@
 		}
 
 		public function addLogin($array) {
+			
+			if (!isset($array['user']) or empty(trim($array['user'])))
+				throw new Exception('Missing user element.', 400);
+				
+			if (!isset($array['password']) or empty(trim($array['password'])))
+				throw new Exception('Missing password element.', 400);
+			
 			$user = $array['user'];
 			$password = Encryption::encrypt($array['password']);
 			$location = $array['location'];
@@ -211,6 +218,38 @@
 											' . $id . ',
 											"OWNED"
 										)');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+		}	
+
+		public function editLogin($array) {
+			$id = $array['id'];
+			$user = $array['user'];
+			$password = Encryption::encrypt($array['password']);
+			$location = $array['location'];
+			$description = $array['description'];
+			$tags = $array['tags'];
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$id = (int) $id;
+			$user = $mysqli->real_escape_string($user);
+			$password = $mysqli->real_escape_string($password);
+			$location = $mysqli->real_escape_string($location);
+			$description = $mysqli->real_escape_string($description);
+			$tags = $mysqli->real_escape_string($tags);
+			
+			$result = $mysqli->query('UPDATE
+											`logins`
+										SET
+											`login_user` = "' . $user . '",
+											`login_password` = "' . $password . '",
+											`login_location` = "' . $location . '",
+											`login_description` = "' . $description . '",
+											`login_tags` = "' . $tags . '"
+										WHERE
+											`login_id` = ' . $id . '
+										LIMIT 1');
 			if ($result === false)
 				throw new Exception($mysqli->error, 500);
 		}	

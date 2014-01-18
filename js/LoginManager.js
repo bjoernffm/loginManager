@@ -29,6 +29,10 @@ LoginManager = function() {
 			show: false
 		});
 		
+		$('.btn-edit-submit').click(function() {
+			self.editFormSubmit();
+		});
+		
 		$('#modalAdd').modal({
 			backdrop: true,
 			keyboard: true,
@@ -153,10 +157,43 @@ LoginManager = function() {
 		});
 	};
 	
+	self.editFormSubmit = function() {
+		isError = false;
+		
+		if ($('#editUserInput').val() == '') {
+			$('#editUserInput').parent().parent().addClass('has-error');
+			isError = true;
+		}
+		if ($('#editPasswordInput').val() == '') {
+			$('#editPasswordInput').parent().parent().addClass('has-error');
+			isError = true;
+		}
+		if (isError === false) {
+			$.getJSON(
+				'ajax/editLogin.ajax.php',
+				{
+					id: $('#editIdInput').val(),
+					user: $('#editUserInput').val(),
+					password: $('#editPasswordInput').val(),
+					location: $('#editLocationInput').val(),
+					description: $('#editDescriptionInput').val(),
+					tags: $('#editTagsInput').val()
+				},
+				function( data ) {
+					console.log(data);
+					
+					$('.search-input').change();
+					$('#modalEdit').modal('hide');
+				}
+			)
+		}
+	}
+	
 	self.editFormShow = function (id) {
 		console.log(id);
 		$.getJSON('ajax/getLogin.ajax.php', {'id': id}, function( data ) {
 			if (data.status == 200) {
+				$('#editIdInput').val(data.login.id);
 				$('#editUserInput').val(data.login.user);
 				$('#editPasswordInput').val(data.login.password);
 				$('#editLocationInput').val(data.login.location);
@@ -207,6 +244,8 @@ LoginManager = function() {
 				},
 				function( data ) {
 					console.log(data);
+					
+					$('.search-input').change();
 					$('#modalAdd').modal('hide');
 				}
 			)

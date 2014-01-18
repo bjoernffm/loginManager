@@ -127,8 +127,9 @@
 								</form>
 							</div>
 							<div class="modal-footer">
+								<input type="hidden" id="editIdInput" />
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-success">
+								<button type="button" class="btn btn-success btn-edit-submit">
 									<span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Save changes
 								</button>
 							</div>
