@@ -205,6 +205,7 @@
 		<script src="js/ZeroClipboard.min.js"></script>
 		<script src="js/jquery-zeroclipboard.js"></script>
 		<script src="js/bootstrap-tagsinput.min.js"></script>
+		<script src="js/sugar.min.js"></script>
 		<script src="js/LoginManager.js"></script>
 		<script>
 			loginManager = new LoginManager();

@@ -81,6 +81,14 @@ LoginManager = function() {
 					val.tags = '';
 				}
 				
+				console.log(val.location);
+				console.log(self.isUrl(val.location));
+				if (self.isUrl(val.location)) {
+					val.location = '<a href="' + val.location + '" target="_blank">' + val.location.truncate(35) + '</a>';
+				} else {
+					val.location = val.location.truncate(35);
+				}
+				
 				row = '<tr>' +
 						'<td>' + val.user + '</td>' +
 						'<td><button class="btn btn-xs btn-default btn-copy-password" data-id="' + val.id + '">'+
@@ -219,4 +227,13 @@ LoginManager = function() {
 		self.init();
 		console.log('Program running');
 	};
+	
+	/**
+	 * Helper functions.
+	 */
+	
+	self.isUrl = function(s) {
+		var regexp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+		return regexp.test(s);
+	}
 };
