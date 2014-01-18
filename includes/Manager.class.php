@@ -223,6 +223,16 @@
 		}	
 
 		public function editLogin($array) {
+			
+			if (0 >= (int) $array['id'])
+				throw new Exception('Missing id element.', 400);
+			
+			if (!isset($array['user']) or empty(trim($array['user'])))
+				throw new Exception('Missing user element.', 400);
+				
+			if (!isset($array['password']) or empty(trim($array['password'])))
+				throw new Exception('Missing password element.', 400);
+				
 			$id = $array['id'];
 			$user = $array['user'];
 			$password = Encryption::encrypt($array['password']);
@@ -250,6 +260,31 @@
 										WHERE
 											`login_id` = ' . $id . '
 										LIMIT 1');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+		}
+
+		public function removeLogin($id) {
+			
+			$id = (int) $id;
+			
+			if ($id <= 0)
+				throw new Exception('Invalid id given. " ' .$id .  '"', 400);
+			
+			$mysqli = self::getMysqlConnection();
+
+			$result = $mysqli->query('DELETE FROM
+											`logins`
+										WHERE
+											`login_id` = ' . $id . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+
+			$result = $mysqli->query('DELETE FROM
+											`user_logins`
+										WHERE
+											`login_id` = ' . $id);
 			if ($result === false)
 				throw new Exception($mysqli->error, 500);
 		}	

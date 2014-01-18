@@ -198,6 +198,26 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="modal fade" id="modalRemove" tabindex="-1" role="dialog" aria-labelledby="modalRemoveLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalRemoveLabel">Do you really want to remove the record?</h4>
+							</div>
+							<div class="modal-footer" style="margin-top: 0; border-top-width: 0;">
+								<input type="hidden" id="removeIdInput" />
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-danger btn-remove-submit">
+									<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Delete record
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- end of modal definition -->
 			</div>
 		</div>
 		

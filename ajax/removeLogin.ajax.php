@@ -4,13 +4,7 @@
 	
 	try {
 		
-		$manager->addLogin(array(
-			'user' => $_GET['user'],
-			'password' => $_GET['password'],
-			'location' => $_GET['location'],
-			'description' => $_GET['description'],
-			'tags' => $_GET['tags']
-		));
+		$manager->removeLogin($_GET['id']);
 		
 		echo json_encode(array(
 			'status' => 200

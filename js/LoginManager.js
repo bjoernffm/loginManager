@@ -29,6 +29,15 @@ LoginManager = function() {
 			show: false
 		});
 		
+		$('#modalEdit').on('hidden.bs.modal', function (e) {
+			$('#editIdInput').val('');
+			$('#editUserInput').val('');
+			$('#editPasswordInput').val('');
+			$('#editLocationInput').val('');
+			$('#editDescriptionInput').val('');
+			$('#editTagsInput').tagsinput('removeAll');
+		});
+		
 		$('.btn-edit-submit').click(function() {
 			self.editFormSubmit();
 		});
@@ -39,12 +48,30 @@ LoginManager = function() {
 			show: false
 		});
 		
+		$('#modalAdd').on('hidden.bs.modal', function (e) {
+			$('#addUserInput').val('');
+			$('#addPasswordInput').val('');
+			$('#addLocationInput').val('');
+			$('#addDescriptionInput').val('');
+			$('#addTagsInput').tagsinput('removeAll');
+		});
+		
 		$('.btn-add').click(function() {
 			self.addFormShow();
 		});
 		
 		$('.btn-add-submit').click(function() {
 			self.addFormSubmit();
+		});
+
+		$('#modalRemove').modal({
+			backdrop: true,
+			keyboard: true,
+			show: false
+		});
+		
+		$('.btn-remove-submit').click(function() {
+			self.removeFormSubmit();
 		});
         
 		$('.btn-login').click(function(e) {
@@ -99,7 +126,7 @@ LoginManager = function() {
 						'<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;copy to clipboard</button></td>'+
 						'<td>' + val.location + '</td>'+
 						'<td>' + val.tags + '</td>'+
-						'<td><button class="btn btn-xs btn-danger pull-right">'+
+						'<td><button class="btn btn-xs btn-remove btn-danger pull-right" data-id="' + val.id + '">'+
 						'<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;remove</button>'+
 						'<button class="btn btn-xs btn-success btn-edit pull-right" data-id="' + val.id + '" style="margin-right: 5px;">'+
 						'<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;edit</button></td>'+
@@ -136,6 +163,10 @@ LoginManager = function() {
 			$('.btn-edit').click(function() {
 				self.editFormShow($(this).attr('data-id'));
 			})
+			
+			$('.btn-remove').click(function() {
+				self.removeFormShow($(this).attr('data-id'));
+			});
 
 			$('.btn-copy-password').zeroclipboard({
 				dataRequested: function (event, setText) {
@@ -190,7 +221,6 @@ LoginManager = function() {
 	}
 	
 	self.editFormShow = function (id) {
-		console.log(id);
 		$.getJSON('ajax/getLogin.ajax.php', {'id': id}, function( data ) {
 			if (data.status == 200) {
 				$('#editIdInput').val(data.login.id);
@@ -207,18 +237,10 @@ LoginManager = function() {
 				$('#modalEdit').modal('show');
 			}
 		});
-		
 	};
 	
 	self.addFormShow = function () {
-	
-		$('#addUserInput').val('');
-		$('#addPasswordInput').val('');
-		$('#addLocationInput').val('');
-		$('#addDescriptionInput').val('');
-		$('#addTagsInput').tagsinput('removeAll');
 		$('#modalAdd').modal('show');
-		
 	};
 	
 	self.addFormSubmit = function() {
@@ -247,6 +269,33 @@ LoginManager = function() {
 					
 					$('.search-input').change();
 					$('#modalAdd').modal('hide');
+				}
+			)
+		}
+	}
+	
+	self.removeFormShow = function (id) {
+		$('#removeIdInput').val(id);
+		$('#modalRemove').modal('show');
+	};
+	
+	self.removeFormSubmit = function() {
+		isError = false;
+		
+		if ($('#removeIdInput').val() == '') {
+			isError = true;
+		}
+		if (isError === false) {
+			$.getJSON(
+				'ajax/removeLogin.ajax.php',
+				{
+					id: $('#removeIdInput').val()
+				},
+				function( data ) {
+					console.log(data);
+					
+					$('.search-input').change();
+					$('#modalRemove').modal('hide');
 				}
 			)
 		}
