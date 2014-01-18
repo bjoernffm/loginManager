@@ -4,7 +4,8 @@
 	
 	require_once '../common.inc.php';
 	
-	try {
+	print_r($_REQUEST);
+	/*try {
 		
 		
 		echo json_encode(array(
@@ -15,6 +16,6 @@
 			'status' => (int) $e->getCode(),
 			'message' => $e->getMessage()
 		));
-	}
+	}*/
 	
 ?>

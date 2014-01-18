@@ -115,6 +115,9 @@
 			if ($varKey === null) {
 				return $this->vars;
 			} else {
+				if (!isset($this->vars[$varKey]))
+					return null;
+				
 				return $this->vars[$varKey];
 			}
 		}

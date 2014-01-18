@@ -76,8 +76,41 @@ LoginManager = function() {
         
 		$('.btn-login').click(function(e) {
 			e.preventDefault();
-			self.loadOverviewTable();
-			self.showOverview();
+			
+			error = false;
+			
+			/**
+			 * Checking email input.
+			 */
+			email = $('.input-login-email').val();
+			if (email.trim() == "") {
+				$('.input-login-email').parent().addClass('has-error');
+				error = true;
+			} else {
+				$('.input-login-email').parent().removeClass('has-error');
+			}
+			
+			/**
+			 * Checking password input.
+			 */
+			password = $('.input-login-password').val();
+			if (password.trim() == "") {
+				$('.input-login-password').parent().addClass('has-error');
+				error = true;
+			} else {
+				$('.input-login-password').parent().removeClass('has-error');
+			}
+			
+			if (error == true) {
+				$('#loginMessage').text('Please fill the input fields below.').show();
+			} else {
+				$('#loginMessage').hide();
+				
+				self.login(email, password, function() {
+					//self.loadOverviewTable();
+					//self.showOverview();
+				});
+			}
 		});
 		$('.btn-logout').click(function(e) {
 			e.preventDefault();
@@ -283,8 +316,21 @@ LoginManager = function() {
 					$('.search-input').change();
 					$('#modalRemove').modal('hide');
 				}
-			)
+			);
 		}
+	}
+	
+	self.login = function(email, password, callback) {
+		$.getJSON(
+			'ajax/loginSession.ajax.php',
+			{
+				'email': email,
+				'password': password
+			},
+			function( data ) {
+				callback.call(self, data);
+			}
+		);	
 	}
 	
 	self.showLogin = function() {
