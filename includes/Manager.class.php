@@ -17,10 +17,32 @@
 			$this->userId = $userId;
 		}
 		
+		public static function checkCredentials($login, $password) {
+			$mysqli = self::getMysqlConnection();
+			
+			$login = $mysqli->real_escape_string($login);
+			$password = $mysqli->real_escape_string($password);
+			
+			$result = $mysqli->query('SELECT
+											*
+										FROM
+											`users`
+										WHERE
+											`user_login` =  "' . $login . '" AND
+											`user_password` =  "' . $password . '"
+										LIMIT 1');
+			if ($result->num_rows != 1)
+				throw new Exception('User not found', 404);
+			
+			$row = $result->fetch_assoc();
+			return $row;										
+			
+		}
+		
 		public function getPasswordById($id) {
 			$mysqli = self::getMysqlConnection();
 			
-			$id = $mysqli->real_escape_string($id);
+			$id = (int) $id;
 			
 			$result = $mysqli->query('SELECT
 											`login_password`

@@ -82,12 +82,12 @@ LoginManager = function() {
 			/**
 			 * Checking email input.
 			 */
-			email = $('.input-login-email').val();
-			if (email.trim() == "") {
-				$('.input-login-email').parent().addClass('has-error');
+			username = $('.input-login-username').val();
+			if (username.trim() == "") {
+				$('.input-login-username').parent().addClass('has-error');
 				error = true;
 			} else {
-				$('.input-login-email').parent().removeClass('has-error');
+				$('.input-login-username').parent().removeClass('has-error');
 			}
 			
 			/**
@@ -106,15 +106,23 @@ LoginManager = function() {
 			} else {
 				$('#loginMessage').hide();
 				
-				self.login(email, password, function() {
-					//self.loadOverviewTable();
-					//self.showOverview();
+				self.login(username, password, function(data) {
+					console.log(data);
+					if (data.status == 200) {
+						$('#loginMessage').hide();
+						self.loadOverviewTable();
+						self.showOverview();
+					} else {
+						$('#loginMessage').text('Email or passwort incorrect.').show();
+					}
 				});
 			}
 		});
 		$('.btn-logout').click(function(e) {
 			e.preventDefault();
-			self.showLogin();
+			self.logout(function(data) {
+				self.showLogin();
+			});
 		});
 		$('.search-input').on('keyup keydown change', function() {
 			value = $(this).val(); 	
@@ -320,13 +328,22 @@ LoginManager = function() {
 		}
 	}
 	
-	self.login = function(email, password, callback) {
+	self.login = function(username, password, callback) {
 		$.getJSON(
 			'ajax/loginSession.ajax.php',
 			{
-				'email': email,
+				'username': username,
 				'password': password
 			},
+			function( data ) {
+				callback.call(self, data);
+			}
+		);	
+	}
+	
+	self.logout = function(callback) {
+		$.getJSON(
+			'ajax/logoutSession.ajax.php',
 			function( data ) {
 				callback.call(self, data);
 			}
@@ -340,6 +357,8 @@ LoginManager = function() {
 	};
 	self.showOverview = function() {
 		$('.pageLogin').fadeOut(function() {
+			$('.input-login-username').val('');
+			$('.input-login-password').val('');
 			$('.pageOverview').fadeIn();
 		});
 	};

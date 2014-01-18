@@ -1,5 +1,6 @@
 <?
-
+	use LoginManager\Manager;
+	
 	require_once '../common.inc.php';
 	
 	$manager = new Manager($session->getVar('userId'));
