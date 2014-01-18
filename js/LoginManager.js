@@ -328,6 +328,10 @@ LoginManager = function() {
 		}
 	}
 	
+	self.checkIfLoggedIn = function() {
+		// now send a request to check if user is already logged in
+	}
+	
 	self.login = function(username, password, callback) {
 		$.getJSON(
 			'ajax/loginSession.ajax.php',
