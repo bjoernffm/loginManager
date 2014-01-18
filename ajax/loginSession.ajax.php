@@ -1,15 +1,14 @@
 <?
 
+	define("NO_STOP", true);
+	
 	require_once '../common.inc.php';
 	
 	try {
-		$manager = new Manager($session->getVar('userId'));
 		
-		$login = $manager->getLogin($_GET['id']);
 		
 		echo json_encode(array(
-			'status' => 200,
-			'login' => $login
+			'status' => 200
 		));
 	} catch (Exception $e) {
 		echo json_encode(array(
@@ -17,5 +16,5 @@
 			'message' => $e->getMessage()
 		));
 	}
-
+	
 ?>

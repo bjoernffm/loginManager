@@ -3,6 +3,7 @@
 	require_once '../common.inc.php';
 	
 	try {
+		$manager = new Manager($session->getVar('userId'));
 		
 		$manager->removeLogin($_GET['id']);
 		

@@ -9,8 +9,9 @@
 	$session = new Session();
 	$session->start();
 	
-	$session->setVar('userId', 1);
+	if ($session->getVar('loggedIn') != true and NO_STOP != true)
+		exit();
 	
-	$manager = new Manager($session->getVar('userId'));
+	//$session->setVar('userId', 1);
 
 ?>

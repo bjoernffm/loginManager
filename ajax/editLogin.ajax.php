@@ -3,6 +3,7 @@
 	require_once '../common.inc.php';
 	
 	try {
+		$manager = new Manager($session->getVar('userId'));
 		
 		$manager->editLogin(array(
 			'id' => $_GET['id'],

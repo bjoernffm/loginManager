@@ -42,7 +42,7 @@
 		public function getLogin($id) {
 			$mysqli = self::getMysqlConnection();
 			
-			$id = $mysqli->real_escape_string($id);
+			$id = (int) $id;
 			
 			$result = $mysqli->query('SELECT
 											*
