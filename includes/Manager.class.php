@@ -17,6 +17,12 @@
 			$this->userId = $userId;
 		}
 		
+		public static function addUser($userName, $userEmail, $userLogin) {}
+		
+		public static function removeUser($userId) {}
+		
+		public static function updateUser($dataArray) {}
+		
 		public static function checkCredentials($login, $password) {
 			$mysqli = self::getMysqlConnection();
 			
