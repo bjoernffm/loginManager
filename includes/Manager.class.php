@@ -17,6 +17,10 @@
 			$this->userId = $userId;
 		}
 		
+		public function addAutologin() {}
+		
+		public function removeAutologin() {}
+		
 		public static function checkCredentials($login, $password) {
 			$mysqli = self::getMysqlConnection();
 			
