@@ -8,7 +8,7 @@
 	$session = new Session();
 	$session->start();
 	
-	if ($session->getVar('loggedIn') != true and NO_STOP != true)
+	if ($session->getVar('loggedIn') != true)
 		exit();
 
 ?>
