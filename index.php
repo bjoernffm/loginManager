@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="pageLogin">
+			<div class="pageLogin" style="display: none;">
 				<form class="form-signin" role="form">
 					<h2 class="form-signin-heading">Please sign in</h2>
 					<p class="alert alert-danger" style="display: none;" id="loginMessage">Email or passwort incorrect.</p>
