@@ -17,7 +17,7 @@
 			$this->userId = $userId;
 		}
 		
-		public static function checkCredentials($login, $password) {
+		public static function checkUserCredentials($login, $password) {
 			$mysqli = self::getMysqlConnection();
 			
 			$login = $mysqli->real_escape_string($login);

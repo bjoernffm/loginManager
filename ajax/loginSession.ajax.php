@@ -9,7 +9,7 @@
 	$session->start();
 	
 	try {
-		$user = Manager::checkCredentials($_REQUEST['username'], $_REQUEST['password']);
+		$user = Manager::checkUserCredentials($_REQUEST['username'], $_REQUEST['password']);
 		
 		$session->setVar('loggedIn', true);
 		$session->setVar('userId', $user['user_id']);
