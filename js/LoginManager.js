@@ -107,7 +107,6 @@ LoginManager = function() {
 				$('#loginMessage').hide();
 				
 				self.login(username, password, function(data) {
-					console.log(data);
 					if (data.status == 200) {
 						$('#loginMessage').hide();
 						self.loadOverviewTable();
@@ -328,6 +327,10 @@ LoginManager = function() {
 		}
 	}
 	
+	self.checkIfLoggedIn = function() {
+		// now send a request to check if user is already logged in
+	}
+	
 	self.login = function(username, password, callback) {
 		$.getJSON(
 			'ajax/loginSession.ajax.php',
@@ -350,6 +353,19 @@ LoginManager = function() {
 		);	
 	}
 	
+	self.isLoggedIn = function(callback) {
+		$.getJSON(
+			'ajax/checkSession.ajax.php',
+			function( data ) {
+				if (data.loggedIn == true) {
+					callback.call(self, true);
+				} else {
+					callback.call(self, false);
+				}
+			}
+		);	
+	}
+	
 	self.showLogin = function() {
 		$('.pageOverview').fadeOut(function() {
 			$('.pageLogin').fadeIn();
@@ -364,7 +380,15 @@ LoginManager = function() {
 	};
 	self.run = function() {
 		self.init();
-		console.log('Program running');
+
+		self.isLoggedIn(function(logged) {
+			if (logged == true) {
+				self.loadOverviewTable();
+				self.showOverview();
+			} else {
+				self.showLogin();
+			}
+		});
 	};
 	
 	/**
