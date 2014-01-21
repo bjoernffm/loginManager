@@ -11,15 +11,58 @@
 
 	class Manager extends Base {
 		
-		private $userId;
+		private $userId = 0;
+		const COOKIE_AUTOLOGIN = 'sec_atlg';
 		
 		public function __construct($userId) {
-			$this->userId = $userId;
+			$this->userId = (int) $userId;
 		}
 		
-		public function addAutologin() {}
+		public function addAutologin() {
+			
+			if ($this->userId <= 0)
+				throw new Exception('No user initialized', 400);
+			
+			$token = self::generateRandomString(32);
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$result = $mysqli->query('UPDATE
+											`users`
+										SET 
+											`user_autologin_token` = "' . $token . '"
+										WHERE
+											`user_id` = ' . $this->userId . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception('Could not add login token: '.$mysqli->error, 500);
+			
+			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365));
+		}
 		
-		public function removeAutologin() {}
+		public function removeAutologin() {
+			
+			if ($this->userId <= 0)
+				throw new Exception('No user initialized', 400);
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$result = $mysqli->query('UPDATE
+											`users`
+										SET 
+											`user_autologin_token` = NULL
+										WHERE
+											`user_id` = ' . $this->userId . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception('Could not remove login token: '.$mysqli->error, 500);
+			
+			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365));
+			unset($_COOKIE[self::COOKIE_AUTOLOGIN]);
+			setcookie(self::COOKIE_AUTOLOGIN, '', time() - 3600);
+		}
+		
+		public function checkForAutologin() {}
 		
 		public static function checkCredentials($login, $password) {
 			$mysqli = self::getMysqlConnection();
