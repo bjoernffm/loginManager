@@ -62,7 +62,28 @@
 			setcookie(self::COOKIE_AUTOLOGIN, '', time() - 3600);
 		}
 		
-		public function checkForAutologin() {}
+		public function checkForAutologin() {
+			$mysqli = self::getMysqlConnection();
+			
+			if (!isset($_COOKIE[self::COOKIE_AUTOLOGIN]))
+				throw new Exception('No autologin token set', 202);
+			
+			$token = $mysqli->real_escape_string($_COOKIE[self::COOKIE_AUTOLOGIN]);
+			
+			$result = $mysqli->query('SELECT
+											*
+										FROM
+											`users`
+										WHERE
+											`user_autologin_token` =  "' . $token . '"
+										LIMIT 1');
+			if ($result->num_rows != 1)
+				throw new Exception('User not found', 404);
+			
+			$row = $result->fetch_assoc();
+			return $row;
+			
+		}
 		
 		public static function checkCredentials($login, $password) {
 			$mysqli = self::getMysqlConnection();
@@ -82,7 +103,7 @@
 				throw new Exception('User not found', 404);
 			
 			$row = $result->fetch_assoc();
-			return $row;										
+			return $row;
 			
 		}
 		

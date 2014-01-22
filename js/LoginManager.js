@@ -106,7 +106,9 @@ LoginManager = function() {
 			} else {
 				$('#loginMessage').hide();
 				
-				self.login(username, password, function(data) {
+				autologin = $('.input-autologin').is(':checked');
+				
+				self.login(username, password, autologin, function(data) {
 					console.log(data);
 					if (data.status == 200) {
 						$('#loginMessage').hide();
@@ -328,12 +330,13 @@ LoginManager = function() {
 		}
 	}
 	
-	self.login = function(username, password, callback) {
+	self.login = function(username, password, autologin, callback) {
 		$.getJSON(
 			'ajax/loginSession.ajax.php',
 			{
 				'username': username,
-				'password': password
+				'password': password,
+				'autologin': autologin
 			},
 			function( data ) {
 				callback.call(self, data);
