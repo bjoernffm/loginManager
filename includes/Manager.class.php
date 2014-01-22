@@ -11,10 +11,33 @@
 
 	class Manager extends Base {
 		
-		private $userId;
+		private $userId = 0;
+		const COOKIE_AUTOLOGIN = 'sec_atlg';
 		
 		public function __construct($userId) {
-			$this->userId = $userId;
+			$this->userId = (int) $userId;
+		}
+
+		public function addAutologin() {
+			
+			if ($this->userId <= 0)
+				throw new Exception('No user initialized', 400);
+			
+			$token = self::generateRandomString(32);
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$result = $mysqli->query('UPDATE
+											`users`
+										SET 
+											`user_autologin_token` = "' . $token . '"
+										WHERE
+											`user_id` = ' . $this->userId . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception('Could not add login token: '.$mysqli->error, 500);
+			
+			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365), self::COOKIE_PATH);
 		}
 		
 		public static function addUser($userName, $userEmail, $userLogin) {}
@@ -23,7 +46,61 @@
 		
 		public static function updateUser($dataArray) {}
 		
-		public static function checkCredentials($login, $password) {
+		public function removeAutologin() {
+			
+			if ($this->userId <= 0)
+				throw new Exception('No user initialized', 400);
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$result = $mysqli->query('UPDATE
+											`users`
+										SET 
+											`user_autologin_token` = NULL
+										WHERE
+											`user_id` = ' . $this->userId . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception('Could not remove login token: '.$mysqli->error, 500);
+			
+			unset($_COOKIE[self::COOKIE_AUTOLOGIN]);
+			setcookie(self::COOKIE_AUTOLOGIN, '', time() - 3600);
+		}
+		
+		public function checkForAutologin() {
+			$mysqli = self::getMysqlConnection();
+			
+			if (!isset($_COOKIE[self::COOKIE_AUTOLOGIN]))
+				throw new Exception('No autologin token set', 202);
+			
+			$token = $mysqli->real_escape_string($_COOKIE[self::COOKIE_AUTOLOGIN]);
+			
+			$result = $mysqli->query('SELECT
+											*
+										FROM
+											`users`
+										WHERE
+											`user_autologin_token` =  "' . $token . '"
+										LIMIT 1');
+			if ($result->num_rows != 1)
+				throw new Exception('User not found', 404);
+			
+			$row = $result->fetch_assoc();
+			return $row;
+			
+		}
+		
+		/**
+		 * Checks the credetials of a user and returns an array if it was
+		 * successful.
+		 * 
+		 * @param string The username.
+		 * @param string The password.
+		 * @return array
+		 * @throws Exception
+		 */
+		public static function checkUserCredentials($login, $password) {
+
 			$mysqli = self::getMysqlConnection();
 			
 			$login = $mysqli->real_escape_string($login);
@@ -35,13 +112,13 @@
 											`users`
 										WHERE
 											`user_login` =  "' . $login . '" AND
-											`user_password` =  "' . $password . '"
+											`user_password` =  SHA1("' . $password . '")
 										LIMIT 1');
 			if ($result->num_rows != 1)
 				throw new Exception('User not found', 404);
 			
 			$row = $result->fetch_assoc();
-			return $row;										
+			return $row;
 			
 		}
 		

@@ -4,6 +4,8 @@
 	use \mysqli;
 
 	class Base {
+		const COOKIE_PATH = '/loginManager/';
+		
 		public static function getMysqlConnection() {
 			global $mysqli;
 			
@@ -13,6 +15,17 @@
 			}
 
 			return $mysqli;
+		}
+		
+		public static function generateRandomString($length = 10) {
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			
+			$randomString = array();
+			for ($i = 0; $i < $length; $i++) {
+				$randomString[] = $characters[rand(0, strlen($characters) - 1)];
+			}
+			
+			return implode('', $randomString);
 		}
 	}
 

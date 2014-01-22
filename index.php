@@ -23,6 +23,11 @@
 					<div>
 						<input type="password" class="form-control input-login-password" placeholder="Password" />
 					</div>
+					<div class="checkbox pull-right">
+						<label>
+							<input type="checkbox" id="input-autologin" value="1"> Remember me
+						</label>
+					</div>
 					<button class="btn btn-lg btn-primary btn-block btn-login">Sign in</button>
 				</form>
 			</div>
@@ -37,7 +42,6 @@
 						</button>
 						<a class="navbar-brand" href="#"><span class="text-primary">Login</span>Manager</a>
 					</div>
-					
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#" class="btn-logout">Logout</a></li>
