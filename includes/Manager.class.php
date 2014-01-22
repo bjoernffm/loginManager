@@ -85,6 +85,15 @@
 			
 		}
 		
+		/**
+		 * Checks the credetials of a user and returns an array if it was
+		 * successful.
+		 * 
+		 * @param string The username.
+		 * @param string The password.
+		 * @return array
+		 * @throws Exception
+		 */
 		public static function checkCredentials($login, $password) {
 			$mysqli = self::getMysqlConnection();
 			

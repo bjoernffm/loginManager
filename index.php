@@ -25,7 +25,7 @@
 					</div>
 					<div class="checkbox pull-right">
 						<label>
-							<input type="checkbox" class="input-autologin" value="1"> Remember me
+							<input type="checkbox" id="input-autologin" value="1"> Remember me
 						</label>
 					</div>
 					<button class="btn btn-lg btn-primary btn-block btn-login">Sign in</button>

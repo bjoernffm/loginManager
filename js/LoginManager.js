@@ -105,8 +105,8 @@ LoginManager = function() {
 				$('#loginMessage').text('Please fill the input fields below.').show();
 			} else {
 				$('#loginMessage').hide();
-				
-				autologin = $('.input-autologin').is(':checked');
+
+				autologin = $('#input-autologin').prop('checked');
 				
 				self.login(username, password, autologin, function(data) {
 					console.log(data);
