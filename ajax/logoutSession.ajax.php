@@ -1,10 +1,16 @@
 <?
 	
+	use LoginManager\Manager;
+		
 	require_once '../common.inc.php';
 	
 	try {
-		$session->unsetVar();
+		$manager = new Manager($session->getVar('userId'));
 		
+		$login = $manager->removeAutologin();
+		
+		$session->unsetVar();
+			
 		echo json_encode(array(
 			'status' => 200
 		));

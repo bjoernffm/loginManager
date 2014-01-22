@@ -37,7 +37,7 @@
 			if ($result === false)
 				throw new Exception('Could not add login token: '.$mysqli->error, 500);
 			
-			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365));
+			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365), self::COOKIE_PATH);
 		}
 		
 		public function removeAutologin() {
@@ -57,7 +57,6 @@
 			if ($result === false)
 				throw new Exception('Could not remove login token: '.$mysqli->error, 500);
 			
-			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365));
 			unset($_COOKIE[self::COOKIE_AUTOLOGIN]);
 			setcookie(self::COOKIE_AUTOLOGIN, '', time() - 3600);
 		}

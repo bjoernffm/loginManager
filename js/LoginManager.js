@@ -367,6 +367,19 @@ LoginManager = function() {
 		);	
 	}
 	
+	self.isAutologin = function(callback) {
+		$.getJSON(
+			'ajax/checkAutologin.ajax.php',
+			function( data ) {
+				if (data.status == 200) {
+					callback.call(self, true);
+				} else {
+					callback.call(self, false);
+				}
+			}
+		);	
+	}
+	
 	self.showLogin = function() {
 		$('.pageOverview').fadeOut(function() {
 			$('.pageLogin').fadeIn();
@@ -386,8 +399,17 @@ LoginManager = function() {
 			if (logged == true) {
 				self.loadOverviewTable();
 				self.showOverview();
+				console.log('RELOGIN');
 			} else {
-				self.showLogin();
+				self.isAutologin(function(autologin) {
+					if (autologin == true) {
+						self.loadOverviewTable();
+						self.showOverview();
+						console.log('AUTOLOGIN');
+					} else {
+						self.showLogin();
+					}
+				})
 			}
 		});
 	};
