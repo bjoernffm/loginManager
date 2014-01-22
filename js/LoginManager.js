@@ -107,9 +107,10 @@ LoginManager = function() {
 				$('#loginMessage').hide();
 
 				autologin = $('#input-autologin').prop('checked');
-				
+
 				self.login(username, password, autologin, function(data) {
 					console.log(data);
+
 					if (data.status == 200) {
 						$('#loginMessage').hide();
 						self.loadOverviewTable();
@@ -353,6 +354,19 @@ LoginManager = function() {
 		);	
 	}
 	
+	self.isLoggedIn = function(callback) {
+		$.getJSON(
+			'ajax/checkSession.ajax.php',
+			function( data ) {
+				if (data.loggedIn == true) {
+					callback.call(self, true);
+				} else {
+					callback.call(self, false);
+				}
+			}
+		);	
+	}
+	
 	self.showLogin = function() {
 		$('.pageOverview').fadeOut(function() {
 			$('.pageLogin').fadeIn();
@@ -367,7 +381,15 @@ LoginManager = function() {
 	};
 	self.run = function() {
 		self.init();
-		console.log('Program running');
+
+		self.isLoggedIn(function(logged) {
+			if (logged == true) {
+				self.loadOverviewTable();
+				self.showOverview();
+			} else {
+				self.showLogin();
+			}
+		});
 	};
 	
 	/**

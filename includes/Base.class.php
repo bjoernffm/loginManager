@@ -4,6 +4,8 @@
 	use \mysqli;
 
 	class Base {
+		const COOKIE_PATH = '/loginManager/';
+		
 		public static function getMysqlConnection() {
 			global $mysqli;
 			
