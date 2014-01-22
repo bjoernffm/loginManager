@@ -66,7 +66,7 @@
 			$this->key = $key;
 			$this->ip = $ip;
 			
-			setcookie (self::SESS_NAME, $this->key, time()+self::SESS_LIFETIME);
+			setcookie (self::SESS_NAME, $this->key, time()+self::SESS_LIFETIME, self::COOKIE_PATH);
 			
 		}
 		

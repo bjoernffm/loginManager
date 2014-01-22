@@ -105,8 +105,12 @@ LoginManager = function() {
 				$('#loginMessage').text('Please fill the input fields below.').show();
 			} else {
 				$('#loginMessage').hide();
-				
-				self.login(username, password, function(data) {
+
+				autologin = $('#input-autologin').prop('checked');
+
+				self.login(username, password, autologin, function(data) {
+					console.log(data);
+
 					if (data.status == 200) {
 						$('#loginMessage').hide();
 						self.loadOverviewTable();
@@ -327,16 +331,13 @@ LoginManager = function() {
 		}
 	}
 	
-	self.checkIfLoggedIn = function() {
-		// now send a request to check if user is already logged in
-	}
-	
-	self.login = function(username, password, callback) {
+	self.login = function(username, password, autologin, callback) {
 		$.getJSON(
 			'ajax/loginSession.ajax.php',
 			{
 				'username': username,
-				'password': password
+				'password': password,
+				'autologin': autologin
 			},
 			function( data ) {
 				callback.call(self, data);
@@ -366,6 +367,19 @@ LoginManager = function() {
 		);	
 	}
 	
+	self.isAutologin = function(callback) {
+		$.getJSON(
+			'ajax/checkAutologin.ajax.php',
+			function( data ) {
+				if (data.status == 200) {
+					callback.call(self, true);
+				} else {
+					callback.call(self, false);
+				}
+			}
+		);	
+	}
+	
 	self.showLogin = function() {
 		$('.pageOverview').fadeOut(function() {
 			$('.pageLogin').fadeIn();
@@ -385,8 +399,17 @@ LoginManager = function() {
 			if (logged == true) {
 				self.loadOverviewTable();
 				self.showOverview();
+				console.log('RELOGIN');
 			} else {
-				self.showLogin();
+				self.isAutologin(function(autologin) {
+					if (autologin == true) {
+						self.loadOverviewTable();
+						self.showOverview();
+						console.log('AUTOLOGIN');
+					} else {
+						self.showLogin();
+					}
+				})
 			}
 		});
 	};
