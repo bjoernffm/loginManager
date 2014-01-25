@@ -203,7 +203,7 @@ LoginManager = function() {
 					button = $(this);
 					$.getJSON('ajax/getPassword.ajax.php', {id: button.attr('data-id')}, function( data ) {
 						if(data !== false) {
-							//console.log(data);
+							console.log(data);
 							setText(data);
 						}
 					});
@@ -382,11 +382,13 @@ LoginManager = function() {
 	
 	self.showLogin = function() {
 		$('.pageOverview').fadeOut(function() {
+			self.changeTitle('Sign in');
 			$('.pageLogin').fadeIn();
 		});
 	};
 	self.showOverview = function() {
 		$('.pageLogin').fadeOut(function() {
+			self.changeTitle('Overview');
 			$('.input-login-username').val('');
 			$('.input-login-password').val('');
 			$('.pageOverview').fadeIn();
@@ -421,5 +423,9 @@ LoginManager = function() {
 	self.isUrl = function(s) {
 		var regexp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 		return regexp.test(s);
-	}
+	};
+	
+	self.changeTitle = function(title) {
+		$('title').text('LoginManager +++ ' + title);
+	};
 };
