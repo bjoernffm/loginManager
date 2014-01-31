@@ -40,7 +40,51 @@
 			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365), self::COOKIE_PATH);
 		}
 		
-		public static function addUser($userName, $userEmail, $userLogin) {}
+		/**
+		 * This function adds a new user to the system.
+		 * Usage:
+		 * <code>
+		 *   Manager::addUser(array(
+		 *     'name' => 'Max Mustermann',
+		 *     'email' => 'max@mustermann.de',
+		 *     'login' => 'max',
+		 *     'password' => 'secret',
+		 *     'mailPassword' => true
+		 *   ));
+		 * </code>
+		 */
+		public static function addUser($params) {
+			
+			if (!isset($params['name']) or trim($params['name']) == '')
+				throw new Exception('Parameter "name" missing.');
+			
+			if (!isset($params['email']) or trim($params['email']) == '')
+				throw new Exception('Parameter "email" missing.');
+				
+			if (!isset($params['login']) or trim($params['login']) == '')
+				throw new Exception('Parameter "login" missing.');
+				
+			if (!isset($params['password']) or trim($params['password']) == '')
+				$params['password'] = self::generateRandomString(12);
+				
+			if (!isset($params['mailPassword']))
+				$params['mailPassword'] = false;
+				
+			$params['name'] = trim($params['name']);
+			$params['email'] = trim($params['email']);
+			$params['login'] = trim($params['login']);
+			$params['password'] = trim($params['password']);
+			
+			$options = array(
+				'cost' => 12,
+				'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)
+			);
+			$params['password'] = password_hash($params['password'], PASSWORD_BCRYPT, $options);
+			
+			$params['mailPassword'] = (bool) $params['mailPassword'];
+			
+			var_dump($params);
+		}
 		
 		public static function removeUser($userId) {}
 		
