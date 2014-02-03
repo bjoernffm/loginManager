@@ -40,9 +40,100 @@
 			setcookie (self::COOKIE_AUTOLOGIN, $token, time() + (86400 * 365), self::COOKIE_PATH);
 		}
 		
-		public static function addUser($userName, $userEmail, $userLogin) {}
+		/**
+		 * This function adds a new user to the system.
+		 * Usage:
+		 * <code>
+		 *   Manager::addUser(array(
+		 *     'name' => 'Max Mustermann',
+		 *     'email' => 'max@mustermann.de',
+		 *     'login' => 'max',
+		 *     'password' => 'secret',
+		 *     'mailPassword' => true
+		 *   ));
+		 * </code>
+		 */
+		public static function addUser($params) {
+			
+			/**
+			 * Check if given data is valid.
+			 */
+			if (!isset($params['name']) or trim($params['name']) == '')
+				throw new Exception('Parameter "name" missing.');
+			
+			if (!isset($params['email']) or trim($params['email']) == '')
+				throw new Exception('Parameter "email" missing.');
+				
+			if (!isset($params['login']) or trim($params['login']) == '')
+				throw new Exception('Parameter "login" missing.');
+				
+			if (!isset($params['password']) or trim($params['password']) == '')
+				$params['password'] = self::generateRandomString(12);
+				
+			if (!isset($params['mailPassword']))
+				$params['mailPassword'] = false;
+			
+			/**
+			 * Prepare given data.
+			 */	
+			$params['name'] = trim($params['name']);
+			$params['email'] = trim($params['email']);
+			$params['login'] = trim($params['login']);
+			$params['password'] = trim($params['password']);
+			
+			$options = array(
+				'cost' => 12,
+				'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)
+			);
+			$params['password'] = password_hash($params['password'], PASSWORD_BCRYPT, $options);
+			
+			$params['mailPassword'] = (bool) $params['mailPassword'];
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$params['name'] = $mysqli->real_escape_string($params['name']);
+			$params['email'] = $mysqli->real_escape_string($params['email']);
+			$params['login'] = $mysqli->real_escape_string($params['login']);
+			
+			$result = $mysqli->query('INSERT INTO
+										`users` (
+											`user_name`,
+											`user_email`,
+											`user_login`,
+											`user_password`
+										) VALUES (
+											"' . $params['name'] . '",
+											"' . $params['email'] . '",
+											"' . $params['login'] . '",
+											"' . $params['password'] . '"
+										)');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+			
+			$id = $mysqli->insert_id;
+			$mysqli->close();
+			
+			return $id;
+			
+		}
 		
-		public static function removeUser($userId) {}
+		public static function removeUser($userId) {
+			
+			$userId = (int) $userId;
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$result = $mysqli->query('DELETE FROM
+											`users`
+										WHERE
+											`user_id` = ' . $userId . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+			
+			$mysqli->close();
+			
+		}
 		
 		public static function updateUser($dataArray) {}
 		
@@ -111,13 +202,16 @@
 										FROM
 											`users`
 										WHERE
-											`user_login` =  "' . $login . '" AND
-											`user_password` =  SHA1("' . $password . '")
+											`user_login` =  "' . $login . '"
 										LIMIT 1');
 			if ($result->num_rows != 1)
 				throw new Exception('User not found', 404);
 			
 			$row = $result->fetch_assoc();
+			
+			if (!password_verify($password, $row['user_password']))
+				throw new Exception('Password incorrect', 401);
+			
 			return $row;
 			
 		}
