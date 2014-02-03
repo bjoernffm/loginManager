@@ -105,7 +105,7 @@
 											"' . $params['name'] . '",
 											"' . $params['email'] . '",
 											"' . $params['login'] . '",
-											"' . $params['password'] . '",
+											"' . $params['password'] . '"
 										)');
 			if ($result === false)
 				throw new Exception($mysqli->error, 500);
@@ -202,13 +202,16 @@
 										FROM
 											`users`
 										WHERE
-											`user_login` =  "' . $login . '" AND
-											`user_password` =  SHA1("' . $password . '")
+											`user_login` =  "' . $login . '"
 										LIMIT 1');
 			if ($result->num_rows != 1)
 				throw new Exception('User not found', 404);
 			
 			$row = $result->fetch_assoc();
+			
+			if (!password_verify($password, $row['user_password']))
+				throw new Exception('Password incorrect', 401);
+			
 			return $row;
 			
 		}
