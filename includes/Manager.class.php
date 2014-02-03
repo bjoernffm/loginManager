@@ -55,6 +55,9 @@
 		 */
 		public static function addUser($params) {
 			
+			/**
+			 * Check if given data is valid.
+			 */
 			if (!isset($params['name']) or trim($params['name']) == '')
 				throw new Exception('Parameter "name" missing.');
 			
@@ -69,7 +72,10 @@
 				
 			if (!isset($params['mailPassword']))
 				$params['mailPassword'] = false;
-				
+			
+			/**
+			 * Prepare given data.
+			 */	
 			$params['name'] = trim($params['name']);
 			$params['email'] = trim($params['email']);
 			$params['login'] = trim($params['login']);
@@ -83,10 +89,51 @@
 			
 			$params['mailPassword'] = (bool) $params['mailPassword'];
 			
-			var_dump($params);
+			$mysqli = self::getMysqlConnection();
+			
+			$params['name'] = $mysqli->real_escape_string($params['name']);
+			$params['email'] = $mysqli->real_escape_string($params['email']);
+			$params['login'] = $mysqli->real_escape_string($params['login']);
+			
+			$result = $mysqli->query('INSERT INTO
+										`users` (
+											`user_name`,
+											`user_email`,
+											`user_login`,
+											`user_password`
+										) VALUES (
+											"' . $params['name'] . '",
+											"' . $params['email'] . '",
+											"' . $params['login'] . '",
+											"' . $params['password'] . '",
+										)');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+			
+			$id = $mysqli->insert_id;
+			$mysqli->close();
+			
+			return $id;
+			
 		}
 		
-		public static function removeUser($userId) {}
+		public static function removeUser($userId) {
+			
+			$userId = (int) $userId;
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$result = $mysqli->query('DELETE FROM
+											`users`
+										WHERE
+											`user_id` = ' . $userId . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+			
+			$mysqli->close();
+			
+		}
 		
 		public static function updateUser($dataArray) {}
 		
