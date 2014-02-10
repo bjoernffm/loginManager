@@ -37,7 +37,13 @@
 			while (true) {
 				$key = self::generateKey();
 				
-				$result = $mysqli->query('SELECT `session_id` FROM `sessions` WHERE `session_key` = BINARY "' . $key . '"');
+				$result = $mysqli->query('SELECT
+												`session_id`
+											FROM
+												`sessions`
+											WHERE
+												`session_key` =
+												BINARY "' . $key . '"');
 				
 				if ($result->num_rows == 0)
 					break;
