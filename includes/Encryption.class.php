@@ -1,5 +1,7 @@
 <?php
 
+	require_once '../config.inc.php';
+
   /**
    * This class offers a wrapper for the php5-mcrypt module that helps you
    * encrypting and decrypting data. The encrypted data can be returned and
@@ -31,12 +33,6 @@
     const MODE = MCRYPT_MODE_CBC;
     
     /**
-     * The very secret key for encrypting. Use your own here!
-     * @const string
-     */   
-    CONST DEFAULT_KEY = 'iXK3ugsBJJSlBkb';
-    
-    /**
      * This method encrypts a given string and returns the encrypted data in
      * binary or hexadecimal form.
      * 
@@ -60,7 +56,7 @@
       /**
        * Initializing all buffers needed for encryption
        */             
-      mcrypt_generic_init($td, self::DEFAULT_KEY, $iv);
+      mcrypt_generic_init($td, APP_SECRET, $iv);
       
       /**
        * encrypt the given string
@@ -123,7 +119,7 @@
         /**
          * Decrypt data and return.
          */                 
-        mcrypt_generic_init($td, self::DEFAULT_KEY, $iv);
+        mcrypt_generic_init($td, APP_SECRET, $iv);
         return mdecrypt_generic($td, $crypttext);
       
       } else {

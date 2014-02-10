@@ -2,6 +2,8 @@
 
 	namespace LoginManager;
 	use \mysqli;
+	
+	require_once '../config.inc.php';
 
 	class Base {
 		const COOKIE_PATH = '/loginManager/';
@@ -10,7 +12,7 @@
 			global $mysqli;
 			
 			if (!isset($mysqli) or $mysqli->server_version === null) {
-				$mysqli = new mysqli('localhost', 'loginManager', 'aDVhuqhBjYJQ753h', 'test');
+				$mysqli = new mysqli(MYSQLI_HOST, MYSQLI_USER, MYSQLI_PASSWORD, MYSQLI_DATABASE);
 				$mysqli->set_charset('utf8');
 			}
 
