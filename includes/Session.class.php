@@ -176,7 +176,7 @@
 								)');	
 		}
 		
-		static function generateKey() {
+		public static function generateKey() {
 			$characters = range(0, 9);
 			$characters = array_merge($characters, range('A', 'Z'));
 			$characters = array_merge($characters, range('a', 'z'));
