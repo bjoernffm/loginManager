@@ -108,65 +108,54 @@
 			$errorsMysqli[] = $mysqli->error;
 			
 		$query = '
-	CREATE TABLE IF NOT EXISTS `devices` (
-	  `device_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	  `device_token` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
-	  `user_id` int(10) unsigned NOT NULL,
-	  PRIMARY KEY (`device_id`),
-	  UNIQUE KEY `device_token` (`device_token`),
-	  KEY `user_id` (`user_id`)
-	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-	
-	CREATE TABLE IF NOT EXISTS `logins` (
-	  `login_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	  `login_user` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-	  `login_password` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-	  `login_location` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-	  `login_description` text COLLATE utf8_unicode_ci NOT NULL,
-	  `login_tags` text COLLATE utf8_unicode_ci NOT NULL,
-	  PRIMARY KEY (`login_id`)
-	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-	
-	CREATE TABLE IF NOT EXISTS `login_tags` (
-	  `login_id` int(10) unsigned NOT NULL,
-	  `tag_id` int(10) unsigned NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-	
-	CREATE TABLE IF NOT EXISTS `sessions` (
-	  `session_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	  `session_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-	  `session_ip` int(10) unsigned NOT NULL,
-	  `session_vars` text COLLATE utf8_unicode_ci NOT NULL,
-	  `session_start` datetime NOT NULL,
-	  `session_last_used` datetime NOT NULL,
-	  PRIMARY KEY (`session_id`),
-	  UNIQUE KEY `session_key` (`session_key`)
-	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
-	
-	CREATE TABLE IF NOT EXISTS `tags` (
-	  `tag_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	  `tag_value` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-	  PRIMARY KEY (`tag_id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-	
-	CREATE TABLE IF NOT EXISTS `users` (
-	  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-	  `user_name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-	  `user_email` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-	  `user_login` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-	  `user_password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-	  `user_autologin_token` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-	  PRIMARY KEY (`user_id`),
-	  UNIQUE KEY `user_autologin_token` (`user_autologin_token`)
-	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-	
-	CREATE TABLE IF NOT EXISTS `user_logins` (
-	  `user_id` int(10) unsigned NOT NULL,
-	  `login_id` int(10) unsigned NOT NULL,
-	  `type` set("OWNED","SHARED") COLLATE utf8_unicode_ci NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
-		
-		@$mysqli->multi_query($query);
+CREATE TABLE IF NOT EXISTS `devices` (
+  `device_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `device_token` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`device_id`),
+  UNIQUE KEY `device_token` (`device_token`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `logins` (
+  `login_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `login_user` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `login_password` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
+  `login_location` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `login_description` text COLLATE utf8_unicode_ci NOT NULL,
+  `login_tags` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`login_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `session_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `session_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `session_ip` int(10) unsigned NOT NULL,
+  `session_vars` text COLLATE utf8_unicode_ci NOT NULL,
+  `session_start` datetime NOT NULL,
+  `session_last_used` datetime NOT NULL,
+  PRIMARY KEY (`session_id`),
+  UNIQUE KEY `session_key` (`session_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `user_email` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `user_login` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `user_password` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `user_autologin_token` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_autologin_token` (`user_autologin_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
+INSERT INTO `users` (`user_name`, `user_email`, `user_login`, `user_password`) VALUES
+("Admin", "admin@your-domain.com", "admin", "$2y$12$zwnfM/6YODWRR0Iub7QBB.F3qhACDC1DJwKoWNhIerI4dffZkpoGW");
+CREATE TABLE IF NOT EXISTS `user_logins` (
+  `user_id` int(10) unsigned NOT NULL,
+  `login_id` int(10) unsigned NOT NULL,
+  `type` set("OWNED","SHARED") COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+';
+		if ($mysqli->multi_query($query) === false)
+			$errorsMysqli[] = $mysqli->error;
+			
 		@$mysqli->close();
 		
 		$content = 
@@ -204,6 +193,10 @@
 					<p class="alert alert-success">
 						<b>Congratulations!</b> You just installed LoginManager v<?=VERSION?>.<br />
 						Now please delete the install.php and have fun using your password managing tool!
+					</p>
+					<p class="alert alert-info">
+						<b>Important:</b> Your username is <b>"admin"</b> and your init password is <b>"secret"</b>.<br />
+						Please log in and change the password as soon as possible.
 					</p>
 				<?}?>
 				<hr />

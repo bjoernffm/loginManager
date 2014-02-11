@@ -1,5 +1,6 @@
 <?
 
+	use LoginManager\Manager;
 	use LoginManager\Session;
 
 	require_once 'version.inc.php';
