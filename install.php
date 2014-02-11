@@ -171,12 +171,12 @@
 		
 		$content = 
 	"<?
-		define('MYSQLI_USER'    , '" . $_POST['inputUsername'] . "');
-		define('MYSQLI_PASSWORD', '" . $_POST['inputPassword'] . "');
-		define('MYSQLI_HOST'    , '" . $_POST['inputHost'] . "');
-		define('MYSQLI_DATABASE', '" . $_POST['inputDatabase'] . "');
-		define('APP_SECRET'     , '" . Session::generateKey() . "');
-	?>";
+	define('MYSQLI_USER'    , '" . $_POST['inputUsername'] . "');
+	define('MYSQLI_PASSWORD', '" . $_POST['inputPassword'] . "');
+	define('MYSQLI_HOST'    , '" . $_POST['inputHost'] . "');
+	define('MYSQLI_DATABASE', '" . $_POST['inputDatabase'] . "');
+	define('APP_SECRET'     , '" . Session::generateKey() . "');
+?>";
 		file_put_contents('config.inc.php', $content, LOCK_EX);
 		
 		if (count($errorsMysqli) == 0 and count($errorsModules) == 0)

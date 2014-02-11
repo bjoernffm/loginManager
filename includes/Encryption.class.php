@@ -1,7 +1,5 @@
 <?php
 
-	require_once '../config.inc.php';
-
   /**
    * This class offers a wrapper for the php5-mcrypt module that helps you
    * encrypting and decrypting data. The encrypted data can be returned and
