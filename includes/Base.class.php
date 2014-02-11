@@ -2,8 +2,6 @@
 
 	namespace LoginManager;
 	use \mysqli;
-	
-	require_once '../config.inc.php';
 
 	class Base {
 		const COOKIE_PATH = '/loginManager/';
