@@ -1,4 +1,4 @@
-# LoginManager v0.7.3
+# LoginManager v0.8.0
 
 ## Why?
 Because many password managing tools are unsafe! The project is related to a deep wish for security while managing passwords. LoginManager offers an own session management that stores the sessiondata in a secure way by encrypting it.
