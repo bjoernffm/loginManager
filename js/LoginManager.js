@@ -23,11 +23,35 @@ LoginManager = function() {
 			confirmKeys: [13, 188]
 		});
 		
+		$('#modalAccount').modal({
+			backdrop: true,
+			keyboard: true,
+			show: false
+		});
+		
+		$('#modalAccount').on('hidden.bs.modal', function (e) {
+			$('#accountPasswordInput').attr('type', 'password');
+			$('#accountShowPassword').removeAttr('checked');
+		});
+		
 		$('#modalEdit').modal({
 			backdrop: true,
 			keyboard: true,
 			show: false
 		});
+		
+		$('#accountShowPassword').change(function() {
+			if ($('#accountShowPassword').prop('checked')) {
+				$('#accountPasswordInput').attr('type', 'text');	
+			} else {
+				$('#accountPasswordInput').attr('type', 'password');
+			}
+		})
+		
+		$('.btn-account').click(function() {
+			$('#modalAccount').modal('show');
+		})
+		
 		
 		$('#modalEdit').on('hidden.bs.modal', function (e) {
 			$('#editIdInput').val('');
@@ -241,8 +265,6 @@ LoginManager = function() {
 					tags: $('#editTagsInput').val()
 				},
 				function( data ) {
-					console.log(data);
-					
 					$('.search-input').change();
 					$('#modalEdit').modal('hide');
 				}

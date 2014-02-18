@@ -46,6 +46,9 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#" class="btn-logout">Logout</a></li>
 						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="#" class="btn-account">My Account</a></li>
+						</ul>
 					</div>
 				</nav>
 				<div class="row">
@@ -78,6 +81,52 @@
 				</table>
 				
 				<!-- modals are defined here -->
+				
+				<div class="modal fade" id="modalAccount" tabindex="-1" role="dialog" aria-labelledby="modalAccountLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="modalAccountLabel">My Account:</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label for="editUserInput" class="col-sm-3 control-label">Username</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="accountUsernameInput" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="editPasswordInput" class="col-sm-3 control-label">Email</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="accountEmailInput" />
+										</div>
+									</div>
+									<hr />
+									<div class="form-group">
+										<label for="editLocationInput" class="col-sm-3 control-label">New Password</label>
+										<div class="col-sm-9">
+											<input type="password" class="form-control" id="accountPasswordInput" />
+											<p class="help-block">
+											<label>
+												<input type="checkbox" id="accountShowPassword"> Show password
+											</label>
+											</p>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<input type="hidden" id="editIdInput" />
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-success btn-edit-submit">
+									<span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Save changes
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				
 				<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
 					<div class="modal-dialog">
