@@ -6,7 +6,6 @@
 	use \Encryption;
 	
 	require_once 'Base.class.php';
-	require_once 'Login.class.php';
 	require_once 'Encryption.class.php';
 
 	class Manager extends Base {
@@ -46,8 +45,7 @@
 		 * <code>
 		 *   Manager::addUser(array(
 		 *     'name' => 'Max Mustermann',
-		 *     'email' => 'max@mustermann.de',
-		 *     'login' => 'max',
+		 *     'email' => 'max@mustermann.de'
 		 *     'password' => 'secret',
 		 *     'mailPassword' => true
 		 *   ));
@@ -64,9 +62,6 @@
 			if (!isset($params['email']) or trim($params['email']) == '')
 				throw new Exception('Parameter "email" missing.');
 				
-			if (!isset($params['login']) or trim($params['login']) == '')
-				throw new Exception('Parameter "login" missing.');
-				
 			if (!isset($params['password']) or trim($params['password']) == '')
 				$params['password'] = self::generateRandomString(12);
 				
@@ -78,7 +73,6 @@
 			 */	
 			$params['name'] = trim($params['name']);
 			$params['email'] = trim($params['email']);
-			$params['login'] = trim($params['login']);
 			$params['password'] = trim($params['password']);
 			
 			$options = array(
@@ -93,18 +87,15 @@
 			
 			$params['name'] = $mysqli->real_escape_string($params['name']);
 			$params['email'] = $mysqli->real_escape_string($params['email']);
-			$params['login'] = $mysqli->real_escape_string($params['login']);
 			
 			$result = $mysqli->query('INSERT INTO
 										`users` (
 											`user_name`,
 											`user_email`,
-											`user_login`,
 											`user_password`
 										) VALUES (
 											"' . $params['name'] . '",
 											"' . $params['email'] . '",
-											"' . $params['login'] . '",
 											"' . $params['password'] . '"
 										)');
 			if ($result === false)
@@ -135,7 +126,73 @@
 			
 		}
 		
-		public static function updateUser($dataArray) {}
+		public static function updateUser($array) {
+			if (0 >= (int) $array['id'])
+				throw new Exception('Missing id element.', 400);
+			
+			if (!isset($array['name']) or empty(trim($array['name'])))
+				throw new Exception('Missing user element.', 400);
+			
+			if (!isset($array['email']) or empty(trim($array['email'])))
+				throw new Exception('Missing user element.', 400);
+				
+			$id = $array['id'];
+			$name = $array['name'];
+			$email = $array['email'];
+			$password = '';
+			if (trim($array['password']) != '') {
+				$options = array(
+					'cost' => 12,
+					'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)
+				);
+				$password = ', `user_password` = "'.password_hash($array['password'], PASSWORD_BCRYPT, $options).'"';
+			}
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$id = (int) $id;
+			$name = $mysqli->real_escape_string($name);
+			$email = $mysqli->real_escape_string($email);
+			
+			$result = $mysqli->query('UPDATE
+											`users`
+										SET
+											`user_name` = "' . $name . '",
+											`user_email` = "' . $email . '"
+											'.$password.'
+										WHERE
+											`user_id` = ' . $id . '
+										LIMIT 1');
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+		}
+		
+		public static function getUser($userId) {
+			
+			$userId = (int) $userId;
+			
+			$mysqli = self::getMysqlConnection();
+			
+			$result = $mysqli->query('SELECT
+											`user_id` AS `id`,
+											`user_name` AS `name`,
+											`user_email` AS `email`
+										FROM
+											`users`
+										WHERE
+											`user_id` = ' . $userId . '
+										LIMIT 1');
+			$mysqli->close();
+			
+			if ($result === false)
+				throw new Exception($mysqli->error, 500);
+			if ($result->num_rows == 0)
+				throw new Exception('Record not found', 404);
+			
+			$row = $result->fetch_assoc();
+			return $row;
+			
+		}
 		
 		public function removeAutologin() {
 			
@@ -190,11 +247,11 @@
 		 * @return array
 		 * @throws Exception
 		 */
-		public static function checkUserCredentials($login, $password) {
+		public static function checkUserCredentials($email, $password) {
 
 			$mysqli = self::getMysqlConnection();
 			
-			$login = $mysqli->real_escape_string($login);
+			$email = $mysqli->real_escape_string($email);
 			$password = $mysqli->real_escape_string($password);
 			
 			$result = $mysqli->query('SELECT
@@ -202,7 +259,7 @@
 										FROM
 											`users`
 										WHERE
-											`user_login` =  "' . $login . '"
+											`user_email` =  "' . $email . '"
 										LIMIT 1');
 			if ($result->num_rows != 1)
 				throw new Exception('User not found', 404);

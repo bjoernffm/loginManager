@@ -91,21 +91,22 @@
 							</div>
 							<div class="modal-body">
 								<form class="form-horizontal" role="form">
+									<input type="hidden" name="accountIdInput" id="accountIdInput" value="" />
 									<div class="form-group">
-										<label for="editUserInput" class="col-sm-3 control-label">Username</label>
+										<label for="accountUsernameInput" class="col-sm-3 control-label">Username</label>
 										<div class="col-sm-9">
 											<input type="text" class="form-control" id="accountUsernameInput" />
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="editPasswordInput" class="col-sm-3 control-label">Email</label>
+										<label for="accountEmailInput" class="col-sm-3 control-label">Email</label>
 										<div class="col-sm-9">
 											<input type="text" class="form-control" id="accountEmailInput" />
 										</div>
 									</div>
 									<hr />
 									<div class="form-group">
-										<label for="editLocationInput" class="col-sm-3 control-label">New Password</label>
+										<label for="accountPasswordInput" class="col-sm-3 control-label">New Password</label>
 										<div class="col-sm-9">
 											<input type="password" class="form-control" id="accountPasswordInput" />
 											<p class="help-block">
@@ -120,7 +121,7 @@
 							<div class="modal-footer">
 								<input type="hidden" id="editIdInput" />
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-success btn-edit-submit">
+								<button type="button" class="btn btn-success btn-account-submit">
 									<span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Save changes
 								</button>
 							</div>

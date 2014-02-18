@@ -30,14 +30,12 @@ LoginManager = function() {
 		});
 		
 		$('#modalAccount').on('hidden.bs.modal', function (e) {
+			$('#accountIdInput').val('');
+			$('#accountUsernameInput').val('');
+			$('#accountEmailInput').val('');
+			$('#accountPasswordInput').val('');
 			$('#accountPasswordInput').attr('type', 'password');
 			$('#accountShowPassword').removeAttr('checked');
-		});
-		
-		$('#modalEdit').modal({
-			backdrop: true,
-			keyboard: true,
-			show: false
 		});
 		
 		$('#accountShowPassword').change(function() {
@@ -46,13 +44,42 @@ LoginManager = function() {
 			} else {
 				$('#accountPasswordInput').attr('type', 'password');
 			}
-		})
+		});
 		
 		$('.btn-account').click(function() {
-			$('#modalAccount').modal('show');
-		})
+			$.getJSON('ajax/getUser.ajax.php?id=me', function( data ) {
+				if (data.status == 200) {
+					$('#accountIdInput').val(data.user.id);
+					$('#accountUsernameInput').val(data.user.name);
+					$('#accountEmailInput').val(data.user.email);
+					$('#modalAccount').modal('show');
+				}
+			});
+		});
 		
+		$('.btn-account-submit').click(function() {
+			$.getJSON(
+				'ajax/editUser.ajax.php',
+				{
+					'id': $('#accountIdInput').val(),
+					'name': $('#accountUsernameInput').val(),
+					'email': $('#accountEmailInput').val(),
+					'password': $('#accountPasswordInput').val(),
+				},
+				function( data ) {
+					if (data.status == 200) {
+						$('#modalAccount').modal('hide');
+					}
+				}
+			);
+		});
 		
+		$('#modalEdit').modal({
+			backdrop: true,
+			keyboard: true,
+			show: false
+		});
+				
 		$('#modalEdit').on('hidden.bs.modal', function (e) {
 			$('#editIdInput').val('');
 			$('#editUserInput').val('');
