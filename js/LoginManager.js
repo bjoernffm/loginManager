@@ -214,12 +214,12 @@ LoginManager = function() {
 				}
 				
 				row = '<tr>' +
-						'<td>' + val.user + '</td>' +
-						'<td><button class="btn btn-xs btn-default btn-copy-password" data-id="' + val.id + '">'+
-						'<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;copy to clipboard</button></td>'+
-						'<td>' + val.location + '</td>'+
-						'<td>' + val.tags + '</td>'+
-						'<td><button class="btn btn-xs btn-remove btn-danger pull-right" data-id="' + val.id + '">'+
+						'<td width="20%">' + val.user + '</td>' +
+						'<td width="20%"><button class="btn btn-xs btn-default btn-show-password" data-id="' + val.id + '">'+
+						'show</button></td>'+
+						'<td width="20%">' + val.location + '</td>'+
+						'<td width="20%">' + val.tags + '</td>'+
+						'<td width="20%"><button class="btn btn-xs btn-remove btn-danger pull-right" data-id="' + val.id + '">'+
 						'<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;remove</button>'+
 						'<button class="btn btn-xs btn-success btn-edit pull-right" data-id="' + val.id + '" style="margin-right: 5px;">'+
 						'<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;edit</button></td>'+
@@ -249,22 +249,18 @@ LoginManager = function() {
 				self.removeFormShow($(this).attr('data-id'));
 			});
 
-			$('.btn-copy-password').zeroclipboard({
-				dataRequested: function (event, setText) {
-					button = $(this);
-					$.getJSON('ajax/getPassword.ajax.php', {id: button.attr('data-id')}, function( data ) {
-						if(data !== false) {
-							console.log(data);
-							setText(data);
-						}
-					});
-				},
-				complete: function() {
-					button.html('<span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;copied!');
-					window.setTimeout(function() {
-						button.html('<span class="glyphicon glyphicon-share"></span>&nbsp;&nbsp;copy to clipboard');
-					}, 500);
-				}
+			$('.btn-show-password').click( function() {
+				btn = $(this);
+				$.getJSON('ajax/getPassword.ajax.php', {id: btn.attr('data-id')}, function( data ) {
+					if(data !== false) {
+						test = $('<input type="text" />');
+						test.val(data);
+						test.attr('readonly');
+						test.css('height', 22);
+						test.addClass('form-control input-sm');
+						btn.parent().html(test);
+					}
+				});
 			});
 		});
 	};
