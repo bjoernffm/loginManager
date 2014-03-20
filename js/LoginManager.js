@@ -215,9 +215,9 @@ LoginManager = function() {
 				
 				row = '<tr>' +
 						'<td width="20%">' + val.user + '</td>' +
-						'<td width="20%"><button class="btn btn-xs btn-default btn-show-password" data-id="' + val.id + '">'+
+						'<td width="15%"><button class="btn btn-xs btn-default btn-show-password" data-id="' + val.id + '">'+
 						'show</button></td>'+
-						'<td width="20%">' + val.location + '</td>'+
+						'<td width="25%">' + val.location + '</td>'+
 						'<td width="20%">' + val.tags + '</td>'+
 						'<td width="20%"><button class="btn btn-xs btn-remove btn-danger pull-right" data-id="' + val.id + '">'+
 						'<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;remove</button>'+
