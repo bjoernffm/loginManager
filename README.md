@@ -3,7 +3,7 @@
 ## Why?
 Because many password managing tools are unsafe! The project is related to a deep wish for security while managing passwords. LoginManager offers an own session management that stores the sessiondata in a secure way by encrypting it.
 
-Your passwords are encrypted throught a wrapper that is using PHP Mcrypt functions. It's very secure and of course an alternative to all those tools like lastpass (i'm sure nobody knows really how the passwords are stored).
+Your passwords are encrypted throught a wrapper that is using PHP Mcrypt functions. It's very secure and of course an alternative to all those tools like lastpass (i'm sure nobody really knows how the passwords are stored there).
 
 Sadly huge companies like Sony often save passwords in plain text till now - don't use those services if you don't have to.
 
